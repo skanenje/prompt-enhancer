@@ -1,0 +1,12 @@
+{
+  "id": "IDEA",
+  "name": "IDEA",
+  "description": "Ideal for content creators — Intent, Details, Expectation, Audience.",
+  "fields": {
+    "Intent": {"hint": "What are you trying to create?", "required": true},
+    "Details": {"hint": "Topic or context", "required": true},
+    "Expectation": {"hint": "Structure or length", "required": false},
+    "Audience": {"hint": "Who's this for?", "required": true}
+  },
+  "template": "I want to create {Intent} about {Details} that is {Expectation} for {Audience}."
+}

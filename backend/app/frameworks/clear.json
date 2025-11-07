@@ -1,13 +1,13 @@
 {
-  "id": "STAGE",
-  "name": "STAGE",
-  "description": "Situation, Task, Action, Goal, Expectation — good for project planning and emails.",
+  "id": "CLEAR",
+  "name": "CLEAR",
+  "description": "Context, Length, Emotion, Audience, Role — great for marketing and communication.",
   "fields": {
-    "Situation": {"hint":"What's happening now", "required": true},
-    "Task": {"hint":"What needs to be done", "required": true},
-    "Action": {"hint":"How should it be handled", "required": false},
-    "Goal": {"hint":"What are you trying to achieve", "required": false},
-    "Expectation": {"hint":"Format, tone, specifics", "required": false}
+    "Context": {"hint":"Background information", "required": true},
+    "Length": {"hint":"How long should the output be", "required": false},
+    "Emotion": {"hint":"Tone or emotional style", "required": false},
+    "Audience": {"hint":"Who is this for", "required": true},
+    "Role": {"hint":"What perspective to take", "required": false}
   },
-  "template": "We are facing {Situation}, and I need to {Task}. Please {Action} to help us achieve {Goal}, and make sure it follows this {Expectation}."
+  "template": "Given {Context}, write for {Audience} with a {Emotion} tone. Keep it {Length}. Take the role of {Role}."
 }

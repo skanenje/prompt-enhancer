@@ -7,6 +7,7 @@ from app.core.analyzer import Analyzer
 from app.core.selector import Selector
 from app.core.synthesizer import Synthesizer
 from app.core.evaluator import Evaluator
+from app.models import QualityMetrics
 
 router = APIRouter()
 
@@ -66,12 +67,13 @@ def enhance(req: EnhanceRequest):
     enhanced, diag = synthesizer.synthesize(req.prompt, framework, overrides=req.fields or {}, explain=req.explain)
 
     evaluator = Evaluator()
-    score, notes = evaluator.score(enhanced, framework, parsed)
+    quality_scores, notes = evaluator.score(enhanced, framework, parsed)
 
     explain_out = diag + notes
     return EnhanceResponse(
         selected_framework=framework.get("id"),
         enhanced_prompt=enhanced,
-        quality=round(score, 2),
-        explain=explain_out
+        quality=QualityMetrics(**quality_scores),
+        explain=explain_out,
+        analysis=parsed
     )

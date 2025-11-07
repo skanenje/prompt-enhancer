@@ -3,16 +3,28 @@ from typing import Dict, Tuple, List
 from app import loader
 import re
 
+try:
+    from transformers import pipeline, T5ForConditionalGeneration, T5Tokenizer
+    TRANSFORMERS_AVAILABLE = True
+except ImportError:
+    TRANSFORMERS_AVAILABLE = False
+
 def _clean_whitespace(s: str) -> str:
     return re.sub(r"\s+", " ", s).strip()
 
 class Synthesizer:
     """
-    Fills a framework template with provided or inferred fields,
-    then naturalizes the text (removes leftover placeholders elegantly)
+    AI-enhanced prompt synthesizer using Hugging Face transformers.
+    Fills framework templates and applies semantic enhancement.
     """
     def __init__(self):
-        pass
+        self.enhancer = None
+        if TRANSFORMERS_AVAILABLE:
+            try:
+                # Use a lightweight model for text improvement
+                self.enhancer = pipeline("text2text-generation", model="t5-small", max_length=512)
+            except Exception:
+                pass
 
     def infer_field(self, field_name: str, prompt: str):
         # Simple heuristics to infer common fields
@@ -52,6 +64,7 @@ class Synthesizer:
         diag = []
         template = framework.get("template", "")
         fields_spec = framework.get("fields", {})
+        
         # Build mapping to fill
         fill_map = {}
         for field_name in fields_spec.keys():
@@ -66,19 +79,40 @@ class Synthesizer:
                 else:
                     diag.append(f"No value for {field_name}; left blank")
 
-        # Attempt to fill template placeholders like {Context}
+        # Fill template
         try:
             raw = template.format(**fill_map)
         except Exception:
-            # fallback: append sentences
             parts = [f"{k}: {v}" for k,v in fill_map.items() if v]
             raw = prompt + " " + " ".join(parts)
 
-        # naturalize
-        final = self.naturalize(raw)
-        # Optionally, if final still literal like "Given , write..." clean more heuristics:
+        # Naturalize
+        naturalized = self.naturalize(raw)
+        
+        # AI enhancement if available
+        if self.enhancer and len(naturalized.split()) > 5:
+            try:
+                enhanced = self._ai_enhance(naturalized)
+                if enhanced and len(enhanced) > len(naturalized) * 0.7:  # Quality check
+                    final = enhanced
+                    diag.append("Applied AI enhancement")
+                else:
+                    final = naturalized
+                    diag.append("Used naturalized version (AI enhancement failed quality check)")
+            except Exception:
+                final = naturalized
+                diag.append("AI enhancement failed, using naturalized version")
+        else:
+            final = naturalized
+            if explain:
+                diag.append("Naturalized final prompt")
+        
         final = re.sub(r"Given\s*,\s*", "", final)
         final = _clean_whitespace(final)
-        if explain:
-            diag.append("Naturalized final prompt.")
         return final, diag
+    
+    def _ai_enhance(self, text: str) -> str:
+        """Use T5 to improve prompt clarity and structure"""
+        enhancement_prompt = f"Improve this prompt for clarity and specificity: {text}"
+        result = self.enhancer(enhancement_prompt, max_length=len(text.split()) + 50, do_sample=False)
+        return result[0]['generated_text'] if result else text

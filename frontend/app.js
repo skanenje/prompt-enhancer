@@ -25,7 +25,7 @@ enhanceBtn.addEventListener("click", async () => {
   enhanceBtn.textContent = "Enhancing...";
 
   try {
-    const res = await fetch("http://127.0.0.1:8000/enhance", {
+    const res = await fetch("http://localhost:8000/enhance", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt, framework_id: framework })

@@ -60,7 +60,7 @@ body {
 
 #promptInput {
   width: 100%;
-  min-height: 200px;
+  min-height: 100px;
   padding: 1rem;
   border: 2px solid #e2e8f0;
   border-radius: 12px;

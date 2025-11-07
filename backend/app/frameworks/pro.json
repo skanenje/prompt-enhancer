@@ -1,0 +1,11 @@
+{
+  "id": "PRO",
+  "name": "PRO",
+  "description": "Use this when you're stuck and need help — Problem, Request, Outcome.",
+  "fields": {
+    "Problem": {"hint": "What are you struggling with?", "required": true},
+    "Request": {"hint": "What do you want help with?", "required": true},
+    "Outcome": {"hint": "What result are you expecting?", "required": true}
+  },
+  "template": "I'm facing {Problem}. Can you {Request} so I can {Outcome}?"
+}

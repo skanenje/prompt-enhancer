@@ -1,0 +1,12 @@
+{
+  "id": "PEEL",
+  "name": "PEEL",
+  "description": "To make your writing more relatable and human — Persona, Environment, Emotion, Language.",
+  "fields": {
+    "Persona": {"hint": "Who is the user?", "required": true},
+    "Environment": {"hint": "Where are they mentally or physically?", "required": true},
+    "Emotion": {"hint": "What are they feeling?", "required": true},
+    "Language": {"hint": "Tone and style of writing", "required": true}
+  },
+  "template": "Write for {Persona} in {Environment} who feels {Emotion} using {Language}."
+}

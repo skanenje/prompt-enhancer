@@ -1,0 +1,11 @@
+{
+  "id": "TAG",
+  "name": "TAG",
+  "description": "Best for clear, no-fluff marketing or optimization tasks — Task, Action, Goal.",
+  "fields": {
+    "Task": {"hint": "What's the task?", "required": true},
+    "Action": {"hint": "What needs to be done?", "required": true},
+    "Goal": {"hint": "What's the desired outcome?", "required": true}
+  },
+  "template": "Your task is to {Task}. Do this by {Action}. The goal is {Goal}."
+}

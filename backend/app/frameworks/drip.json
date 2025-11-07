@@ -1,0 +1,12 @@
+{
+  "id": "DRIP",
+  "name": "DRIP",
+  "description": "For precision and control over ChatGPT outputs — Do, Result, Instructions, Parameters.",
+  "fields": {
+    "Do": {"hint": "What do you want it to do?", "required": true},
+    "Result": {"hint": "What output are you expecting?", "required": true},
+    "Instructions": {"hint": "Style, structure, or order", "required": false},
+    "Parameters": {"hint": "Word limit, tools, tone, etc.", "required": false}
+  },
+  "template": "Please {Do} so we can {Result}. Follow these {Instructions} and stay within these {Parameters}."
+}

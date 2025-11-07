@@ -11,8 +11,13 @@ enhanceBtn.addEventListener("click", async () => {
   const prompt = promptInput.value.trim();
   const framework = frameworkSelect.value;
 
-  if (!prompt || !framework) {
-    alert("Please enter a prompt and choose a framework.");
+  if (!prompt) {
+    alert("Please enter a prompt.");
+    return;
+  }
+  
+  if (!framework || framework === "Loading..." || framework === "Error loading frameworks") {
+    alert("Please wait for frameworks to load and select one.");
     return;
   }
 

@@ -79,6 +79,7 @@ body {
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
+  width: 100%;
 }
 
 #frameworkSelect {
@@ -88,10 +89,11 @@ body {
   border-radius: 8px;
   font-size: 1rem;
   background: white;
+  min-width: 0;
 }
 
 #enhanceBtn {
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1.5rem;
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   border: none;
@@ -100,6 +102,8 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s, opacity 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 #enhanceBtn:hover:not(:disabled) {
@@ -195,6 +199,11 @@ body {
   
   .controls {
     flex-direction: column;
+  }
+  
+  #enhanceBtn {
+    padding: 0.75rem;
+    width: 100%;
   }
   
   .input-card, .output-card {

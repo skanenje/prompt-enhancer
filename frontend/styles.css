@@ -39,10 +39,9 @@ body {
 
 .main {
   flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
-  align-items: start;
 }
 
 .input-card, .output-card {
@@ -150,6 +149,8 @@ body {
   word-wrap: break-word;
   line-height: 1.6;
   font-size: 0.95rem;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .meta {
@@ -186,11 +187,6 @@ body {
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
-  }
-  
-  .main {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
   
   .header h1 {

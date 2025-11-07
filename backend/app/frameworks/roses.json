@@ -1,0 +1,13 @@
+{
+  "id": "ROSES",
+  "name": "ROSES",
+  "description": "Use this when you need a structured, styled response — Role, Objective, Steps, Example, Style.",
+  "fields": {
+    "Role": {"hint": "Who should ChatGPT act as?", "required": true},
+    "Objective": {"hint": "What is the goal?", "required": true},
+    "Steps": {"hint": "How should the output be structured?", "required": false},
+    "Example": {"hint": "Provide a sample if you can", "required": false},
+    "Style": {"hint": "Define tone or voice", "required": false}
+  },
+  "template": "Act as a {Role} with the objective of {Objective}. Break it into {Steps} with {Example}, and keep the {Style}."
+}

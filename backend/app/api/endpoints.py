@@ -51,26 +51,43 @@ def auto_suggest(payload: Dict[str, str]):
 
 @router.post("/enhance", response_model=EnhanceResponse)
 def enhance(req: EnhanceRequest):
+    import logging
+    logging.basicConfig(level=logging.DEBUG)
+    logger = logging.getLogger(__name__)
+    
+    logger.debug(f"🔍 Input prompt: '{req.prompt}'")
+    logger.debug(f"🎯 Requested framework: {req.framework_id}")
+    
     analyzer = Analyzer()
     parsed = analyzer.analyze(req.prompt)
+    logger.debug(f"📊 Parsed analysis: {parsed}")
 
     # select framework
     if req.framework_id:
         framework = loader.get_framework(req.framework_id)
         if framework is None:
             raise HTTPException(status_code=404, detail="Framework not found")
+        logger.debug(f"✅ Using requested framework: {framework['id']}")
     else:
         selector = Selector()
         picks = selector.suggest(parsed, top_n=1)
         framework = loader.get_framework(picks[0]["id"])
+        logger.debug(f"🤖 Auto-selected framework: {framework['id']}")
 
+    logger.debug(f"📋 Framework template: {framework.get('template')}")
+    
     synthesizer = Synthesizer()
     enhanced, diag = synthesizer.synthesize(req.prompt, framework, overrides=req.fields or {}, explain=req.explain)
+    
+    logger.debug(f"✨ Enhanced prompt: '{enhanced}'")
+    logger.debug(f"🔧 Synthesis diagnostics: {diag}")
 
     evaluator = Evaluator()
     quality_scores, notes = evaluator.score(enhanced, framework, parsed)
 
     explain_out = diag + notes
+    logger.debug(f"📈 Quality scores: {quality_scores}")
+    
     return EnhanceResponse(
         selected_framework=framework.get("id"),
         enhanced_prompt=enhanced,

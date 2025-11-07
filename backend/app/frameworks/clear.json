@@ -1,13 +1,13 @@
 {
   "id": "CLEAR",
   "name": "CLEAR",
-  "description": "Context, Length, Emotion, Audience, Role — great for marketing and communication.",
+  "description": "Great for writing content with emotional tone — Context, Length, Emotion, Action, Result.",
   "fields": {
-    "Context": {"hint":"Background information", "required": true},
-    "Length": {"hint":"How long should the output be", "required": false},
-    "Emotion": {"hint":"Tone or emotional style", "required": false},
-    "Audience": {"hint":"Who is this for", "required": true},
-    "Role": {"hint":"What perspective to take", "required": false}
+    "Context": {"hint": "Situation or background", "required": true},
+    "Length": {"hint": "Short, Medium, Long", "required": false},
+    "Emotion": {"hint": "Tone - inspiring, bold, funny?", "required": true},
+    "Action": {"hint": "What should the reader do?", "required": true},
+    "Result": {"hint": "Desired impact", "required": true}
   },
-  "template": "Given {Context}, write for {Audience} with a {Emotion} tone. Keep it {Length}. Take the role of {Role}."
+  "template": "Given {Context}, write a {Length} piece that feels {Emotion}, and should {Action} to achieve {Result}."
 }

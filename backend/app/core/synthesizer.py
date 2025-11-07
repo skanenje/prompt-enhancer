@@ -46,75 +46,78 @@ class Synthesizer:
             except Exception:
                 pass
 
-    def infer_field(self, field_name: str, prompt: str):
-        l = prompt.lower()
+    def infer_field(self, field_name: str, prompt: str, field_description: str = "") -> str:
+        """Use AI models to intelligently infer field values from prompt context"""
+        
+        # Create inference prompt for the AI model
+        inference_prompt = f"""
+Analyze this user prompt and extract the most appropriate value for the '{field_name}' field.
+
+User prompt: "{prompt}"
+Field to extract: {field_name}
+Field description: {field_description}
+
+Provide only the extracted value, no explanation. Keep it concise and relevant to the prompt context.
+If the field cannot be determined from the prompt, provide a reasonable default.
+"""
+        
+        # Try Gemini first for better inference
+        if self.gemini_model:
+            try:
+                response = self.gemini_model.generate_content(inference_prompt)
+                result = response.text.strip()
+                if result and len(result) < 200:  # Reasonable length check
+                    return result
+            except Exception:
+                pass
+        
+        # Fallback to T5 model
+        if self.enhancer:
+            try:
+                result = self.enhancer(f"Extract {field_name} from: {prompt}", max_length=50, do_sample=False)
+                if result and result[0]['generated_text']:
+                    return result[0]['generated_text'].strip()
+            except Exception:
+                pass
+        
+        # Final fallback: simple extraction
+        return self._simple_field_extraction(field_name, prompt)
+    
+    def _simple_field_extraction(self, field_name: str, prompt: str) -> str:
+        """Simple fallback extraction when AI models are unavailable"""
         field_lower = field_name.lower()
+        prompt_lower = prompt.lower()
         
-        # Length inference
-        if field_lower == "length":
-            if any(w in l for w in ["short","brief","paragraph","tweet"]):
-                return "short"
-            return "detailed explanation"
+        # Basic topic extraction
+        topic_patterns = [
+            r"(?:about|learn about|understand|explain)\s+(.+?)(?:\s+(?:that|which|for|to)|[.!?]|$)",
+            r"(?:what is|tell me about)\s+(.+?)(?:[.!?]|$)"
+        ]
         
-        # Tone/Emotion inference
-        if field_lower in ["emotion","tone"]:
-            if any(w in l for w in ["urgent","asap","immediately"]):
-                return "urgent"
-            if any(w in l for w in ["fun","casual","playful"]):
-                return "casual"
-            return "informative"
+        topic = ""
+        for pattern in topic_patterns:
+            match = re.search(pattern, prompt_lower)
+            if match:
+                topic = match.group(1).strip()
+                break
         
-        # Action inference
-        if field_lower == "action":
-            if "learn" in l:
-                return "Explain in detail"
-            if "understand" in l:
-                return "Break down and clarify"
-            return "Provide comprehensive information"
+        # Field-specific defaults with topic context
+        defaults = {
+            "action": f"Explain {topic}" if topic else "Provide information",
+            "purpose": f"to understand {topic}" if topic else "to get information",
+            "context": f"Learning about {topic}" if topic else "General inquiry",
+            "expectation": "Clear and comprehensive explanation",
+            "role": "knowledgeable expert",
+            "audience": "someone seeking to learn",
+            "tone": "informative and helpful",
+            "length": "detailed" if "detailed" in prompt_lower else "comprehensive",
+            "objective": f"teaching about {topic}" if topic else "providing education",
+            "task": f"explain {topic}" if topic else "inform",
+            "goal": "comprehensive understanding",
+            "situation": f"Need to understand {topic}" if topic else "Learning context"
+        }
         
-        # Purpose inference
-        if field_lower == "purpose":
-            if "learn" in l:
-                return "to gain knowledge and understanding"
-            if "understand" in l:
-                return "to comprehend the concepts"
-            return "to get informed"
-        
-        # Expectation inference
-        if field_lower == "expectation":
-            if "learn" in l or "understand" in l:
-                return "Clear explanations with examples"
-            return "Comprehensive and accurate information"
-        
-        # Context/Situation - extract key topic
-        if field_lower in ["context", "situation"]:
-            # Extract main topic after common phrases
-            topic_match = re.search(r"(?:about|learn about|understand)\s+(.+?)(?:\s+that|$)", l)
-            if topic_match:
-                return f"Learning about {topic_match.group(1).strip()}"
-            return "Educational inquiry"
-        
-        # Task inference
-        if field_lower == "task":
-            if "learn" in l:
-                topic_match = re.search(r"learn about\s+(.+?)(?:\s+that|$)", l)
-                if topic_match:
-                    return f"learn about {topic_match.group(1).strip()}"
-            return "understand the topic"
-        
-        # Goal inference
-        if field_lower == "goal":
-            return "gain comprehensive understanding"
-        
-        # Audience inference
-        if field_lower == "audience":
-            return "someone wanting to learn"
-        
-        # Role inference
-        if field_lower == "role":
-            return "knowledgeable instructor"
-        
-        return ""
+        return defaults.get(field_lower, topic or "relevant information")
 
     def naturalize(self, raw_template: str) -> str:
         # Remove placeholders left empty: patterns like " {Field}" or " to achieve {Result}."
@@ -132,10 +135,16 @@ class Synthesizer:
         return s
 
     def synthesize(self, prompt: str, framework: Dict, overrides: Dict[str,str] = None, explain: bool = False) -> Tuple[str, List[str]]:
+        import logging
+        logger = logging.getLogger(__name__)
+        
         overrides = overrides or {}
         diag = []
         template = framework.get("template", "")
         fields_spec = framework.get("fields", {})
+        
+        logger.debug(f"📋 Template: {template}")
+        logger.debug(f"📝 Fields to fill: {list(fields_spec.keys())}")
         
         # Build mapping to fill
         fill_map = {}
@@ -143,23 +152,32 @@ class Synthesizer:
             if field_name in overrides and overrides[field_name]:
                 fill_map[field_name] = overrides[field_name]
                 diag.append(f"Using override for {field_name}: '{overrides[field_name]}'")
+                logger.debug(f"⚙️ Override {field_name}: '{overrides[field_name]}'")
             else:
-                inferred = self.infer_field(field_name, prompt)
+                field_desc = fields_spec.get(field_name, {}).get("description", "")
+                inferred = self.infer_field(field_name, prompt, field_desc)
                 fill_map[field_name] = inferred
+                logger.debug(f"🧠 AI-inferred {field_name}: '{inferred}'")
                 if inferred:
-                    diag.append(f"Inferred {field_name}: '{inferred}'")
+                    diag.append(f"AI-inferred {field_name}: '{inferred}'")
                 else:
                     diag.append(f"No value for {field_name}; left blank")
 
+        logger.debug(f"🗺 Fill map: {fill_map}")
+        
         # Fill template
         try:
             raw = template.format(**fill_map)
-        except Exception:
+            logger.debug(f"✅ Template filled successfully: '{raw}'")
+        except Exception as e:
+            logger.debug(f"⚠️ Template fill failed: {e}")
             parts = [f"{k}: {v}" for k,v in fill_map.items() if v]
             raw = prompt + " " + " ".join(parts)
+            logger.debug(f"🔄 Fallback raw: '{raw}'")
 
         # Naturalize
         naturalized = self.naturalize(raw)
+        logger.debug(f"🌿 Naturalized: '{naturalized}'")
         
         # AI enhancement if available
         if (self.gemini_model or self.enhancer) and len(naturalized.split()) > 5:
@@ -181,6 +199,7 @@ class Synthesizer:
         
         final = re.sub(r"Given\s*,\s*", "", final)
         final = _clean_whitespace(final)
+        logger.debug(f"🏁 Final result: '{final}'")
         return final, diag
     
     def _ai_enhance(self, text: str) -> str:

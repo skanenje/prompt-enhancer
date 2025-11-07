@@ -1,0 +1,14 @@
+{
+  "id": "MULTI_MODAL",
+  "name": "Multi-Modal AI Extraction",
+  "description": "Extracts information using multiple AI reasoning modes and cognitive approaches",
+  "fields": {
+    "Topic": {"hint": "Main subject to explore", "required": true},
+    "Analytical_Mode": {"hint": "Logical, systematic breakdown", "required": false},
+    "Creative_Mode": {"hint": "Innovative, lateral thinking", "required": false},
+    "Critical_Mode": {"hint": "Skeptical, evaluative analysis", "required": false},
+    "Synthesis_Mode": {"hint": "Combining different perspectives", "required": false},
+    "Practical_Mode": {"hint": "Real-world applications", "required": false}
+  },
+  "template": "Examine {Topic} using multiple cognitive approaches: {Analytical_Mode} for systematic analysis, {Creative_Mode} for innovative insights, {Critical_Mode} for evaluation, {Synthesis_Mode} for integration, and {Practical_Mode} for applications."
+}

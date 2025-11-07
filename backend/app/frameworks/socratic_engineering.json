@@ -1,0 +1,14 @@
+{
+  "id": "SOCRATIC_ENGINEERING",
+  "name": "Socratic Engineering Method",
+  "description": "Combines Socratic questioning with engineering problem-solving for deep understanding",
+  "fields": {
+    "Initial_Question": {"hint": "What do you want to understand?", "required": true},
+    "Assumptions": {"hint": "What do you assume to be true?", "required": true},
+    "Evidence_Required": {"hint": "What proof or data do you need?", "required": false},
+    "Alternative_Perspectives": {"hint": "What other viewpoints exist?", "required": false},
+    "Implications": {"hint": "What are the consequences?", "required": false},
+    "Meta_Questions": {"hint": "Questions about the question itself", "required": false}
+  },
+  "template": "Explore {Initial_Question} by questioning {Assumptions}. Examine {Evidence_Required} and consider {Alternative_Perspectives}. Analyze {Implications} and reflect on {Meta_Questions} to build deep understanding."
+}

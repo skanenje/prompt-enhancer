@@ -1,0 +1,14 @@
+{
+  "id": "SYSTEMS_THINKING",
+  "name": "Systems Thinking Framework",
+  "description": "Analyzes topics as interconnected systems with feedback loops and emergent properties",
+  "fields": {
+    "System_Boundary": {"hint": "What's included in the system?", "required": true},
+    "Components": {"hint": "Key elements and parts", "required": true},
+    "Relationships": {"hint": "How components interact", "required": true},
+    "Feedback_Loops": {"hint": "Reinforcing and balancing loops", "required": false},
+    "Emergent_Properties": {"hint": "System-level behaviors", "required": false},
+    "External_Influences": {"hint": "Outside factors affecting system", "required": false}
+  },
+  "template": "Analyze the system within {System_Boundary} by examining {Components} and their {Relationships}. Identify {Feedback_Loops} and {Emergent_Properties}, considering {External_Influences} on system behavior."
+}

@@ -33,15 +33,39 @@ def list_models():
 
 
 
+def _load_system_prompt() -> str:
+    try:
+        import json
+        with open('/home/zedolph/prompt-enhancer/backend/system_prompt.json', 'r') as f:
+            return json.load(f)['system_prompt']
+    except:
+        return "You are an expert prompt enhancer focused on engineering fundamentals and first principles thinking."
+
 def _ai_enhance_with_framework(user_prompt: str, framework: Dict) -> str:
     # Try Gemini first
     api_key = os.getenv('GEMINI_API_KEY')
     if api_key:
         try:
             genai.configure(api_key=api_key)
-            # Use gemini-2.0-flash specifically
             model = genai.GenerativeModel('models/gemini-2.0-flash')
-            prompt = f"Enhance this prompt using {framework.get('name')} framework: {user_prompt}"
+            
+            system_prompt = _load_system_prompt()
+            
+            prompt = f"""
+{system_prompt}
+
+Framework: {framework.get('name')} - {framework.get('description')}
+Original prompt: "{user_prompt}"
+
+Enhance this prompt using the framework while applying first principles methodology. Create a response that:
+- Breaks down the topic into fundamental components
+- Uses engineering thinking and systematic approaches
+- Focuses on foundational understanding
+- Includes practical applications
+- Is well-formatted in markdown
+
+Enhanced prompt:"""
+            
             response = model.generate_content(prompt)
             return response.text.strip()
         except Exception:
@@ -57,8 +81,35 @@ def _ai_enhance_with_framework(user_prompt: str, framework: Dict) -> str:
     except Exception:
         pass
     
-    # Final fallback
-    return f"Please provide a detailed explanation about {user_prompt.replace('i want to learn about', '').strip()}"
+    # Final fallback with engineering focus
+    topic = user_prompt.replace('i want to learn about', '').replace('i want to', '').strip()
+    return f"""# Engineering Deep Dive: {topic.title()}
+
+## First Principles Approach
+Explain **{topic}** by breaking it down to fundamental components:
+
+### Core Fundamentals
+- What are the basic building blocks?
+- What physical/mathematical principles govern this?
+- How do the fundamental forces/mechanisms work?
+
+### System Architecture
+- How do components interact systematically?
+- What are the key relationships and dependencies?
+- What are the design constraints and trade-offs?
+
+### Engineering Applications
+- Real-world implementations and use cases
+- Performance metrics and optimization strategies
+- Common failure modes and reliability considerations
+
+## Learning Methodology
+- Start with basic principles and build complexity gradually
+- Include mathematical relationships where relevant
+- Provide engineering examples and case studies
+- Focus on understanding 'why' things work, not just 'how'
+
+*Approach this from an engineering perspective with systematic, first-principles thinking.*"""
 
 @router.post("/enhance", response_model=EnhanceResponse)
 def enhance(req: EnhanceRequest):

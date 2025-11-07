@@ -1,7 +1,7 @@
 const enhanceBtn = document.getElementById("enhanceBtn");
 const promptInput = document.getElementById("promptInput");
 const frameworkSelect = document.getElementById("frameworkSelect");
-const outputSection = document.getElementById("output-section");
+
 const enhancedOutput = document.getElementById("enhancedOutput");
 const selectedFramework = document.getElementById("selectedFramework");
 const promptScore = document.getElementById("promptScore");
@@ -33,7 +33,7 @@ enhanceBtn.addEventListener("click", async () => {
 
     const data = await res.json();
 
-    enhancedOutput.textContent = data.enhanced_prompt;
+    enhancedOutput.innerHTML = data.enhanced_prompt.replace(/\n/g, '<br>');
     selectedFramework.textContent = `Framework: ${data.selected_framework}`;
     
     const quality = data.quality;
@@ -47,7 +47,7 @@ enhanceBtn.addEventListener("click", async () => {
       </div>
     `;
 
-    outputSection.classList.remove("hidden");
+    document.getElementById("output-card").classList.remove("hidden");
   } catch (err) {
     console.error("Enhancement failed:", err);
     alert("Something went wrong.");

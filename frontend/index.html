@@ -7,45 +7,42 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <img src="assets/logo.svg" alt="Logo" class="logo" />
-    <h1>Adaptive Prompt Enhancer</h1>
-    <p class="subtitle">Refine, structure, and optimize prompts intelligently</p>
-  </header>
+  <div class="container">
+    <header class="header">
+      <h1>🚀 Prompt Enhancer</h1>
+      <p>Transform your prompts with AI intelligence</p>
+    </header>
 
-  <main>
-    <!-- Input Section -->
-    <section id="input-section" class="card">
-      <h2>Enter Your Prompt</h2>
-      <textarea id="promptInput" placeholder="Type or paste your prompt here..."></textarea>
-
-      <div class="controls">
-        <label for="frameworkSelect">Choose Framework:</label>
-        <select id="frameworkSelect">
-          <option value="">Loading frameworks...</option>
-        </select>
-
-        <button id="enhanceBtn">Enhance Prompt</button>
-      </div>
-    </section>
-
-    <!-- Output Section -->
-    <section id="output-section" class="card hidden">
-      <h2>Enhanced Prompt</h2>
-      <pre id="enhancedOutput"></pre>
-
-      <div class="result-meta">
-        <span id="selectedFramework"></span>
-        <span id="promptScore"></span>
+    <main class="main">
+      <div class="input-card">
+        <h2>Enter Your Prompt</h2>
+        <textarea id="promptInput" placeholder="Type your prompt here..."></textarea>
+        
+        <div class="controls">
+          <select id="frameworkSelect">
+            <option value="">Loading frameworks...</option>
+          </select>
+          <button id="enhanceBtn" disabled>Enhance</button>
+        </div>
       </div>
 
-      <button id="copyBtn">Copy to Clipboard</button>
-    </section>
-  </main>
-
-  <footer>
-    <p>Prompt Enhancer &copy; 2025 — Built for human-AI collaboration.</p>
-  </footer>
+      <div id="output-card" class="output-card hidden">
+        <div class="output-header">
+          <h2>Enhanced Prompt</h2>
+          <button id="copyBtn">📋 Copy</button>
+        </div>
+        
+        <div class="output-content">
+          <div id="enhancedOutput"></div>
+        </div>
+        
+        <div class="meta">
+          <span id="selectedFramework"></span>
+          <div id="promptScore"></div>
+        </div>
+      </div>
+    </main>
+  </div>
 
   <script src="frameworkManager.js"></script>
   <script src="app.js"></script>

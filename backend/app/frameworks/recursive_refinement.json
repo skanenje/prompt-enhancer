@@ -1,0 +1,13 @@
+{
+  "id": "RECURSIVE_REFINEMENT",
+  "name": "Recursive Refinement Protocol",
+  "description": "Iteratively refines understanding through progressive questioning and validation",
+  "fields": {
+    "Initial_Understanding": {"hint": "Current level of knowledge", "required": true},
+    "Knowledge_Gaps": {"hint": "What's missing or unclear?", "required": true},
+    "Refinement_Questions": {"hint": "Questions to deepen understanding", "required": false},
+    "Validation_Criteria": {"hint": "How to verify accuracy?", "required": false},
+    "Next_Iteration": {"hint": "What to explore next?", "required": false}
+  },
+  "template": "Starting from {Initial_Understanding}, identify {Knowledge_Gaps}. Use {Refinement_Questions} to deepen knowledge, apply {Validation_Criteria} to verify accuracy, then plan {Next_Iteration} for continued learning."
+}

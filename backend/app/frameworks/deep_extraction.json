@@ -1,0 +1,14 @@
+{
+  "id": "DEEP_EXTRACTION",
+  "name": "Deep AI Extraction",
+  "description": "Maximum information extraction using multi-layered questioning and perspective shifting",
+  "fields": {
+    "Core_Query": {"hint": "Your main question or topic", "required": true},
+    "Context_Layers": {"hint": "Background, assumptions, constraints", "required": true},
+    "Perspective_Shifts": {"hint": "Different viewpoints to explore", "required": false},
+    "Depth_Levels": {"hint": "Surface, intermediate, expert levels needed", "required": false},
+    "Output_Formats": {"hint": "How you want information presented", "required": false},
+    "Follow_Up_Chains": {"hint": "Related questions to explore", "required": false}
+  },
+  "template": "Analyze {Core_Query} across multiple dimensions. Consider {Context_Layers} and explore from {Perspective_Shifts}. Provide insights at {Depth_Levels} using {Output_Formats}. Include {Follow_Up_Chains} for deeper exploration."
+}

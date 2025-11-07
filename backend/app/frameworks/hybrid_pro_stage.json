@@ -1,0 +1,15 @@
+{
+  "id": "HYBRID_PRO_STAGE",
+  "name": "PRO-STAGE Hybrid",
+  "description": "Combines Problem-Request-Outcome with Situation-Task-Action-Goal-Expectation for comprehensive project planning",
+  "fields": {
+    "Problem": {"hint": "What challenge are you facing?", "required": true},
+    "Situation": {"hint": "Current context and environment", "required": true},
+    "Request": {"hint": "What specific help do you need?", "required": true},
+    "Task": {"hint": "What needs to be accomplished?", "required": true},
+    "Action": {"hint": "How should it be approached?", "required": false},
+    "Goal": {"hint": "What's the desired end state?", "required": true},
+    "Outcome": {"hint": "What result are you expecting?", "required": true}
+  },
+  "template": "Given the {Situation}, I'm facing {Problem}. I need to {Task} and request that you {Request}. Please {Action} to help achieve {Goal} and deliver {Outcome}."
+}

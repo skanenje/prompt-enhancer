@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Enhancer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <img src="assets/logo.svg" alt="Logo" class="logo" />
+    <h1>Adaptive Prompt Enhancer</h1>
+    <p class="subtitle">Refine, structure, and optimize prompts intelligently</p>
+  </header>
+
+  <main>
+    <!-- Input Section -->
+    <section id="input-section" class="card">
+      <h2>Enter Your Prompt</h2>
+      <textarea id="promptInput" placeholder="Type or paste your prompt here..."></textarea>
+
+      <div class="controls">
+        <label for="frameworkSelect">Choose Framework:</label>
+        <select id="frameworkSelect">
+          <option value="">Loading frameworks...</option>
+        </select>
+
+        <button id="enhanceBtn">Enhance Prompt</button>
+      </div>
+    </section>
+
+    <!-- Output Section -->
+    <section id="output-section" class="card hidden">
+      <h2>Enhanced Prompt</h2>
+      <pre id="enhancedOutput"></pre>
+
+      <div class="result-meta">
+        <span id="selectedFramework"></span>
+        <span id="promptScore"></span>
+      </div>
+
+      <button id="copyBtn">Copy to Clipboard</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>Prompt Enhancer &copy; 2025 — Built for human-AI collaboration.</p>
+  </footer>
+
+  <script src="frameworkManager.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

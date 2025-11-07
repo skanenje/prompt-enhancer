@@ -1,0 +1,59 @@
+const enhanceBtn = document.getElementById("enhanceBtn");
+const promptInput = document.getElementById("promptInput");
+const frameworkSelect = document.getElementById("frameworkSelect");
+const outputSection = document.getElementById("output-section");
+const enhancedOutput = document.getElementById("enhancedOutput");
+const selectedFramework = document.getElementById("selectedFramework");
+const promptScore = document.getElementById("promptScore");
+const copyBtn = document.getElementById("copyBtn");
+
+enhanceBtn.addEventListener("click", async () => {
+  const prompt = promptInput.value.trim();
+  const framework = frameworkSelect.value;
+
+  if (!prompt || !framework) {
+    alert("Please enter a prompt and choose a framework.");
+    return;
+  }
+
+  enhanceBtn.disabled = true;
+  enhanceBtn.textContent = "Enhancing...";
+
+  try {
+    const res = await fetch("http://127.0.0.1:8000/enhance", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, framework_id: framework })
+    });
+
+    const data = await res.json();
+
+    enhancedOutput.textContent = data.enhanced_prompt;
+    selectedFramework.textContent = `Framework: ${data.selected_framework}`;
+    
+    const quality = data.quality;
+    promptScore.innerHTML = `
+      <div class="quality-metrics">
+        <div class="metric">Overall: ${quality.overall}/10</div>
+        <div class="metric">Clarity: ${quality.clarity}/10</div>
+        <div class="metric">Specificity: ${quality.specificity}/10</div>
+        <div class="metric">Context: ${quality.context_richness}/10</div>
+        <div class="metric">Actionability: ${quality.actionability}/10</div>
+      </div>
+    `;
+
+    outputSection.classList.remove("hidden");
+  } catch (err) {
+    console.error("Enhancement failed:", err);
+    alert("Something went wrong.");
+  } finally {
+    enhanceBtn.disabled = false;
+    enhanceBtn.textContent = "Enhance Prompt";
+  }
+});
+
+copyBtn.addEventListener("click", () => {
+  navigator.clipboard.writeText(enhancedOutput.textContent);
+  copyBtn.textContent = "Copied!";
+  setTimeout(() => (copyBtn.textContent = "Copy to Clipboard"), 1500);
+});

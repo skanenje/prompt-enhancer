@@ -1,0 +1,133 @@
+:root {
+  --bg: #f5f7fa;
+  --primary: #4a90e2;
+  --accent: #ff9800;
+  --text: #333;
+  --radius: 12px;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: white;
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+
+.logo {
+  width: 60px;
+  vertical-align: middle;
+}
+
+.subtitle {
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+select, button {
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  border: none;
+}
+
+select {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: var(--accent);
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 1rem;
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  font-family: "Consolas", monospace;
+}
+
+.hidden {
+  display: none;
+}
+
+.result-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.quality-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.metric {
+  background: #f8f9fa;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  text-align: center;
+  border-left: 3px solid var(--primary);
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #777;
+  border-top: 1px solid #eee;
+}

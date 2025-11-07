@@ -20,8 +20,9 @@ class EnhanceRequest(BaseModel):
 class EnhanceResponse(BaseModel):
     selected_framework: str
     enhanced_prompt: str
-    quality: float
+    quality: QualityMetrics
     explain: Optional[List[str]] = []
+    analysis: Optional[Dict] = None
 
 @router.get("/frameworks")
 def list_frameworks():

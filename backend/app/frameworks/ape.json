@@ -1,0 +1,11 @@
+{
+  "id": "APE",
+  "name": "APE",
+  "description": "Action, Purpose, Expectation — great for producing clear instructions with intent.",
+  "fields": {
+    "Action": {"hint":"What should be done", "required": true},
+    "Purpose": {"hint":"Why are we doing this", "required": false},
+    "Expectation": {"hint":"What success looks like", "required": false}
+  },
+  "template": "{Action}. Purpose: {Purpose}. Expectation: {Expectation}."
+}

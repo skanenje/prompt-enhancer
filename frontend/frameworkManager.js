@@ -6,7 +6,7 @@ async function loadFrameworks() {
   enhanceBtn.disabled = true;
 
   try {
-    const res = await fetch("http://localhost:8000/frameworks");
+    const res = await fetch("api/frameworks");
     const data = await res.json();
 
     select.innerHTML = "<option value=''>Choose a framework...</option>";

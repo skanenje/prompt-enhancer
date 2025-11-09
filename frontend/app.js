@@ -32,6 +32,10 @@ enhanceBtn.addEventListener("click", async () => {
     });
 
     const data = await res.json();
+    
+    if (!res.ok || !data.enhanced_prompt) {
+      throw new Error(data.detail || 'Invalid response from server');
+    }
 
     enhancedOutput.innerHTML = data.enhanced_prompt.replace(/\n/g, '<br>');
     selectedFramework.textContent = `Framework: ${data.selected_framework}`;

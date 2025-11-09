@@ -52,19 +52,22 @@ def _ai_enhance_with_framework(user_prompt: str, framework: Dict) -> str:
             system_prompt = _load_system_prompt()
             
             prompt = f"""
-{system_prompt}
+You are a prompt enhancement specialist. Your ONLY job is to improve prompts, NOT to answer them.
 
 Framework: {framework.get('name')} - {framework.get('description')}
-Original prompt: "{user_prompt}"
+Original prompt to enhance: "{user_prompt}"
 
-Enhance this prompt using the framework while applying first principles methodology. Create a response that:
-- Breaks down the topic into fundamental components
-- Uses engineering thinking and systematic approaches
-- Focuses on foundational understanding
-- Includes practical applications
-- Is well-formatted in markdown
+IMPORTANT: Do NOT answer the question in the original prompt. Instead, rewrite it as a better, more detailed prompt that someone else could use.
 
-Enhanced prompt:"""
+Enhance this prompt by:
+- Making it more specific and detailed
+- Adding relevant context and constraints
+- Structuring it clearly
+- Including expected output format
+- Using the selected framework's approach
+
+Return ONLY the enhanced prompt, nothing else:
+"""
             
             response = model.generate_content(prompt)
             return response.text.strip()

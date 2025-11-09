@@ -65,6 +65,7 @@ Enhance this prompt by:
 - Structuring it clearly
 - Including expected output format
 - Using the selected framework's approach
+- Using First prinicpal engineering methodology
 
 Return ONLY the enhanced prompt, nothing else:
 """

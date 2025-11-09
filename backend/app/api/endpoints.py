@@ -57,7 +57,7 @@ You are a prompt enhancement specialist. Your ONLY job is to improve prompts, NO
 Framework: {framework.get('name')} - {framework.get('description')}
 Original prompt to enhance: "{user_prompt}"
 
-IMPORTANT: Do NOT answer the question in the original prompt. Instead, rewrite it as a better, more detailed prompt that someone else could use.
+IMPORTANT: Do NOT answer the question in the original prompt. Instead, rewrite it as a better, more detailed prompt that someone else could use with another ai tool like chatGPT to get maximum information from it.
 
 Enhance this prompt by:
 - Making it more specific and detailed

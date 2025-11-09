@@ -66,6 +66,8 @@ Enhance this prompt by:
 - Including expected output format
 - Using the selected framework's approach
 - Using First prinicpal engineering methodology
+- Breakdown into its constituents components
+- Explain How everything is connected and works
 
 Return ONLY the enhanced prompt, nothing else:
 """
